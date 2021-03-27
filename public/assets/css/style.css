@@ -1,0 +1,10 @@
+.add-form{
+    max-height: calc(100vh - 48px);
+}
+.form-inputs{
+    overflow: auto;
+}
+.open{
+    transition: transform .3s ease-out;
+    transform:none;
+}

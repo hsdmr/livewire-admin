@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title')</title>
+    <title>HasPanel Livewire Admin</title>
     @include('admin.layouts.header')
     @livewireStyles
 </head>
@@ -28,7 +28,7 @@
           @include('admin.layouts.sidebar')
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 p-0">
-          @yield('content')
+          {{$slot}}
         </main>
       </div>
     </div>

@@ -22,7 +22,7 @@ class Login extends Component
         ];
         if(Auth::attempt($credentials)){
             if(Auth::user()->role=='admin'){
-                return redirect()->route('admin.home');
+                return redirect()->route('admin.dashboard');
             }
         }
         $this->addError('failed', __('auth.Email or password is incorrect'));
@@ -30,6 +30,6 @@ class Login extends Component
 
     public function render()
     {
-        return view('livewire.auth.login');
+        return view('livewire.auth.login')->layout('admin.layouts.app');
     }
 }

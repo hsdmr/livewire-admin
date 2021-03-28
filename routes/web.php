@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Livewire\Admin\Dashboard;
+use App\Http\Livewire\Admin\Post;
+use App\Http\Livewire\Auth\ForgetPassword;
+use App\Http\Livewire\Auth\Login;
+use App\Http\Livewire\Auth\Register;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',function(){return view('auth.login');})->name('login');
-Route::get('/register',function(){return view('auth.register');})->name('register');
-Route::get('/forget-password',function(){return view('auth.forget-password');})->name('forget-password');
+Route::get('/', Login::class)->name('login');
+Route::get('/register', Register::class)->name('register');
+Route::get('/forget-password', ForgetPassword::class)->name('forget-password');
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', function(){return view('admin.dashboard');})->name('dashboard');
-    Route::get('/post', function(){return view('admin.post');})->name('post');
+    Route::get('/', Dashboard::class)->name('dashboard');
+    Route::get('/post', Post::class)->name('post');
 });

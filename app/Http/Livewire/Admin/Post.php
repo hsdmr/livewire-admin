@@ -21,7 +21,7 @@ class Post extends Component
         if($isUnique!=null) session()->flash('slug', __('alert.Slug must be unique.'));
         $this->slug = Str::slug($this->title,'-');
         $this->posts = Posts::where('type','=','post')->get();
-        return view('livewire.admin.post');
+        return view('livewire.admin.post')->layout('admin.layouts.app');
     }
 
     public function isOpen($bool){

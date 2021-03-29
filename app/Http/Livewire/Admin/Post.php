@@ -19,9 +19,9 @@ class Post extends Component
     {
         $isUnique = Slugs::select('id')->where('slug','=',$this->slug)->where('language','=',$this->language)->first();
         if($isUnique!=null) session()->flash('slug', __('alert.Slug must be unique.'));
-        $this->slug = Str::slug($this->title,'-');
+        $this->slug = $this->slug==""? Str::slug($this->title,'-') : Str::slug($this->slug,'-');
         $this->posts = Posts::where('type','=','post')->get();
-        return view('livewire.admin.post')->layout('admin.layouts.app');
+        return view('livewire.admin.post')->layout('layouts.admin.app');
     }
 
     public function isOpen($bool){

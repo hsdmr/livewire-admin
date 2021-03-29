@@ -30,6 +30,6 @@ class Login extends Component
 
     public function render()
     {
-        return view('livewire.auth.login')->layout('admin.layouts.app');
+        return view('livewire.auth.login')->layout('layouts.auth.app');
     }
 }

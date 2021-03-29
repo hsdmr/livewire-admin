@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\Admin\Dashboard;
+use App\Http\Livewire\Admin\Media;
 use App\Http\Livewire\Admin\Post;
 use App\Http\Livewire\Auth\ForgetPassword;
 use App\Http\Livewire\Auth\Login;
@@ -24,4 +25,5 @@ Route::get('/forget-password', ForgetPassword::class)->name('forget-password');
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
     Route::get('/post', Post::class)->name('post');
+    Route::get('/media', Media::class)->name('media');
 });

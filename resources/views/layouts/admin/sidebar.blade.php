@@ -18,5 +18,11 @@
             {{__('main.Users')}}
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link @if(Request::segment(2)=='media')active" aria-current="page @endif" href="{{route('admin.media')}}">
+            <i class="fas fa-media"></i>
+            {{__('main.Media')}}
+          </a>
+        </li>
     </ul>
 </div>

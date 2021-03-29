@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HasPanel Livewire Admin</title>
-    @include('admin.layouts.header')
+    @include('layouts.admin.header')
     @livewireStyles
 </head>
 <body>
@@ -25,7 +25,7 @@
     <div class="container-fluid">
       <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-          @include('admin.layouts.sidebar')
+          @include('layouts.admin.sidebar')
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 p-0">
           {{$slot}}

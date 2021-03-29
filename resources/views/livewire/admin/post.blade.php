@@ -60,7 +60,10 @@
           <tr>
             <td>{{$item->title}}</td>
             <td>{{$item->title}}</td>
-            <td><button wire:click="edit({{$item->id}})" type="button" class="btn btn-success btn-sm">&times;</button></td>
+            <td style="width: 75px">
+                <button wire:click="edit({{$item->id}})" type="button" class="btn btn-sm"><i class="fas fa-edit text-primary"></i></button>
+                <button wire:click="delete({{$item->id}})" type="button" class="btn btn-sm"><i class="fas fa-times text-danger"></i></button>
+            </td>
           </tr>
           @endforeach
         @endif

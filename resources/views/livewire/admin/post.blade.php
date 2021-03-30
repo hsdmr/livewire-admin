@@ -8,6 +8,7 @@
             <button type="button" class="btn-close" aria-label="Close" wire:click="isOpen(false)"></button>
           </div>
           <form action="" wire:submit.prevent="save">
+            <livewire:admin.add-media >
             <div class="modal-body" style="height:calc(100vh - 130px);overflow: auto">
                 <div class="row">
                     <div class="col-md-9">
@@ -41,6 +42,7 @@
     </div>
     <div class="modal-backdrop fade show"></div>
     @endif
+
     <h1 class="text-center">{{__('main.Posts')}}</h1>
     <button type="button" class="btn btn-success btn-sm float-end mx-3" wire:click="create">{{__('main.Add New')}}</button>
     <div class="clearfix"></div>
@@ -70,5 +72,4 @@
       </tbody>
     </table>
     </div>
-
 </div>

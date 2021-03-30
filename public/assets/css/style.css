@@ -8,3 +8,9 @@
     transition: transform .3s ease-out;
     transform:none;
 }
+.media-preview{
+    width: 10%;
+    height: 100px;
+    object-fit: cover;
+    padding: 3px;
+}

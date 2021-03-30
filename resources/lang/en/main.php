@@ -17,7 +17,6 @@ return [
     'Order' => 'Order',
     'Parent' => 'Parent',
 
-
     'Add New' => 'Add New',
     'Create' => 'Create',
     'Edit' => 'Edit',
@@ -31,5 +30,7 @@ return [
     'Categories' => 'Categories',
     'User' => 'User',
     'Users' => 'Users',
+    'Media' => 'Media',
+    'Medias' => 'Medias',
 
 ];

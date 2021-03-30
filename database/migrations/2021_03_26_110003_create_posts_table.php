@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('slug_id')->default(0);
             $table->unsignedBigInteger('user_id')->default(0);
             $table->unsignedBigInteger('post_id')->default(0);
-            $table->unsignedBigInteger('parent')->default(0);
+            $table->unsignedBigInteger('parent')->default(0); //parent post id si yazılacak
             $table->string('image')->default('');
             $table->string('title')->default('');
             $table->longText('content')->default('');

@@ -14,6 +14,7 @@ class Posts extends Model
         'user_id',
         'media_id',
         'post_id',
+        'image',
         'parent',
         'title',
         'content',

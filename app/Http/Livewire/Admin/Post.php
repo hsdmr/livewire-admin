@@ -2,18 +2,25 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Categories;
 use App\Models\Posts;
 use App\Models\Slugs;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
 class Post extends Component
 {
-    public $isOpen=false;
-    public $slug_id,$user_id,$post_id,$parent,$image,$title,$content,$post_status = "publish",$comment_status="open",$language,$categories;
+    public $isOpen = false;
+    public $slug_id,$user_id,$post_id,$parent,$image,$title,$content,$category,$categories;
+    public $language = 'en';
+    public $post_status = "publish";
+    public $comment_status = "open";
     public $slug,$seo_title,$seo_description,$index,$follow;
     public $posts = [];
+
+    protected $listeners = ['addFeatured'];
 
     public function render()
     {
@@ -21,6 +28,7 @@ class Post extends Component
         if($isUnique!=null) session()->flash('slug', __('alert.Slug must be unique.'));
         $this->slug = $this->slug==""? Str::slug($this->title,'-') : Str::slug($this->slug,'-');
         $this->posts = Posts::where('type','=','post')->get();
+        $this->categories = Categories::where('type','=','post')->get();
         return view('livewire.admin.post')->layout('layouts.admin.app');
     }
 
@@ -46,7 +54,7 @@ class Post extends Component
             ]);
             $post = Posts::create([
                 'slug_id' => $slugs->id,
-                'user_id' => 1,
+                'user_id' => Auth::id(),
                 'image' => $this->image,
                 'title' => $this->title,
                 'content' => $this->content,
@@ -113,11 +121,36 @@ class Post extends Component
         $this->content = '';
         $this->slug = '';
         $this->categories = [];
-        $this->imageId = '';
+        $this->image = '';
         $this->seoTitle = '';
         $this->seoDescription = '';
         $this->index = '';
         $this->follow = '';
     }
 
+    public function addCategory(){
+        $slug = Str::slug($this->category,'-');
+        $isUnique = Slugs::select('id')->where('slug','=',$slug)->where('language','=',$this->language)->first();
+        if($isUnique!=null) {
+            $slug = $slug.uniqid(3);
+        };
+        $slugRow = Slugs::create([
+            'slug' => $slug,
+            'owner' => 'category',
+            'language' => $this->language,
+        ]);
+        Categories::create([
+            'slug_id' => $slugRow->id,
+            'title' => $this->category,
+        ]);
+        $this->category = '';
+    }
+
+    public function addFeatured($imageUrl){
+        $this->image = $imageUrl;
+    }
+
+    public function clearFeatured(){
+        $this->image = '';
+    }
 }

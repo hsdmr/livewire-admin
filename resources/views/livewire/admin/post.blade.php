@@ -8,27 +8,71 @@
             <button type="button" class="btn-close" aria-label="Close" wire:click="isOpen(false)"></button>
           </div>
           <form action="" wire:submit.prevent="save">
-            <livewire:admin.add-media >
-            <div class="modal-body" style="height:calc(100vh - 130px);overflow: auto">
+            <div class="modal-body" style="height:calc(100vh - 130px);overflow: auto; background-color:#f4f6f9;">
                 <div class="row">
                     <div class="col-md-9">
-                        <input type="hidden" wire:model.lazy="post_id">
-                        <input type="hidden" wire:model.lazy="post_status" value="publish">
-                        <input type="hidden" wire:model.lazy="comment_status" value="publish">
-                        <input wire:model.lazy="title" type="text" class="form-control mb-2 @if($title!="") is-valid @else is-invalid @endif" placeholder="{{__('main.Title')}}">
-                        <input wire:model.lazy="slug" type="text" class="form-control mb-2 @if(session()->has('slug')) is-invalid @endif" placeholder="{{__('main.Slug')}}">
-                        @if (session()->has('slug'))
-                        <p class="text-danger">{{ session('slug') }}</p>
-                        @endif
-                        <textarea wire:model.lazy="content" type="text" class="form-control mb-2" placeholder="{{__('main.Content')}}" rows="3" ></textarea>
-                        <input wire:model.lazy="image" type="text" class="form-control mb-2" placeholder="{{__('main.Image')}}">
-                        <input wire:model.lazy="seo_title" type="text" class="form-control mb-2" placeholder="{{__('main.Seo Title')}}">
-                        <input wire:model.lazy="seo_description" type="text" class="form-control mb-2" placeholder="{{__('main.Seo Description')}}">
-                        <input wire:model.lazy="index" type="text" class="form-control mb-2" placeholder="{{__('main.Index')}}">
-                        <input wire:model.lazy="follow" type="text" class="form-control mb-2" placeholder="{{__('main.Follow')}}">
+                        <div class="card">
+                            <div class="card-body">
+                                <input type="hidden" wire:model.lazy="post_id">
+                                <input type="hidden" wire:model.lazy="post_status" value="publish">
+                                <input type="hidden" wire:model.lazy="comment_status" value="publish">
+                                <div class="form-group">
+                                    <label for="title">{{__('main.Title')}}</label>
+                                    <input wire:model.lazy="title" id="title" type="text" class="form-control form-control-sm mb-2 @if($title!="") is-valid @else is-invalid @endif" placeholder="{{__('main.Title')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="slug">{{__('main.Slug')}}</label>
+                                    <input wire:model.lazy="slug" id="slug" type="text" class="form-control form-control-sm mb-2 @if(session()->has('slug')) is-invalid @endif" placeholder="{{__('main.Slug')}}">
+                                </div>
+                                @if (session()->has('slug'))
+                                <p class="text-danger">{{ session('slug') }}</p>
+                                @endif
+                                <textarea wire:model.lazy="content" type="text" class="form-control form-control-sm mb-2" placeholder="{{__('main.Content')}}" rows="3" ></textarea>
+                            </div>
+                        </div>
+                        @include('layouts.admin.seo')
                     </div>
                     <div class="col-md-3">
-
+                        <div class="card">
+                            <div class="card-header">
+                                <label for="">{{__('main.Language')}}</label>
+                            </div>
+                            <div class="card-body">
+                                <select wire:model.lazy="language" id="" class="form-control form-control-sm">
+                                    <option value="tr">Türkçe</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <label for="image">{{__('main.Featured Image')}}</label>
+                            </div>
+                            <div class="card-body">
+                                <img src="{{$image==''? '' : config('app.url').'/storage/'.$image}}" alt="" class="featured-image">
+                                <input type="hidden" wire:model="image" id="image" class="form-control form-control-sm">
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-warning btn-xs float-start" wire:click="clearFeatured">{{__('main.Remove')}}</button>
+                                <livewire:admin.add-media >
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <label for="categories">{{__('main.Categories')}}</label>
+                            </div>
+                            <div class="card-body" style="max-height: 150px; overflow: auto;">
+                                @foreach ($categories as $item)
+                                    <label style="font-weight:400; width:100%"><input type="checkbox" name="" id="" class="me-2" value="{{$item->id}}">{{$item->title}}</label>
+                                @endforeach
+                            </div>
+                            <div class="card-footer">
+                                <div class="input-group">
+                                    <input type="text" wire:model.lazy="category" class="form-control form-control-sm" placeholder="{{__('main.Category')}}">
+                                    <button type="button" class="btn btn-success btn-xs float-start" wire:click="addCategory">{{__('main.Add')}}</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

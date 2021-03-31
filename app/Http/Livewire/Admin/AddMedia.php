@@ -11,6 +11,9 @@ class AddMedia extends Component
 {
     use WithFileUploads;
     public $isMediaOpen = false;
+    public $uploadTab = false;
+    public $mediasTab = true;
+    public $singleMedia;
     public $media;
     public $medias;
 
@@ -40,15 +43,40 @@ class AddMedia extends Component
             'type' => 'media',
             'comment_status' => 'close',
         ]);
-        $this->isMediaOpen = false;
+        $this->media = null;
+        $this->mediasTab();
     }
 
     private function resetInputFields(){
-        $this->medias = [];
+        $this->media = null;
     }
 
     public function create(){
         $this->resetInputFields();
         $this->isMediaOpen = true;
+    }
+
+    public function choose($id){
+        $this->singleMedia = Posts::find($id);
+    }
+
+    public function delete($id){
+        Posts::find($id)->delete();
+        $this->singleMedia = null;
+    }
+
+    public function mediasTab(){
+        $this->mediasTab = true;
+        $this->uploadTab = false;
+    }
+
+    public function uploadTab(){
+        $this->uploadTab = true;
+        $this->mediasTab = false;
+    }
+
+    public function choosePreview(){
+        $this->isMediaOpen = false;
+        $this->emitUp('addFeatured',$this->singleMedia->image);
     }
 }

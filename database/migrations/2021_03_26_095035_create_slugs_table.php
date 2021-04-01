@@ -15,13 +15,13 @@ class CreateSlugsTable extends Migration
     {
         Schema::create('slugs', function (Blueprint $table) {
             $table->id();
-            $table->string('owner')->nullable();
-            $table->string('slug')->nullable();
-            $table->string('seo_title')->nullable();
-            $table->string('seo_description')->nullable();
-            $table->string('index')->nullable();
-            $table->string('follow')->nullable();
-            $table->string('language')->nullable();
+            $table->string('owner')->default('');
+            $table->string('slug')->default('');
+            $table->string('title')->default('');
+            $table->string('description')->default('');
+            $table->string('index')->default('');
+            $table->string('follow')->default('');
+            $table->string('language')->default('');
             $table->softDeletes();
             $table->timestamps();
         });

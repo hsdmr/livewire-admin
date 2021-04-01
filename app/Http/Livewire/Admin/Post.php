@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Categories;
+use App\Models\CategoriesPosts;
 use App\Models\Posts;
 use App\Models\Slugs;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -17,19 +17,33 @@ class Post extends Component
     public $language = 'en';
     public $post_status = "publish";
     public $comment_status = "open";
-    public $slug,$seo_title,$seo_description,$index,$follow;
-    public $posts = [];
+    public $slug,$seo_title,$seo_description,$index,$follow,$seoTitleCount = 0,$seoDescriptionCount = 0;
+    public $postCategories = [];
+    public $posts;
 
     protected $listeners = ['addFeatured'];
 
     public function render()
     {
-        $isUnique = Slugs::select('id')->where('slug','=',$this->slug)->where('language','=',$this->language)->first();
-        if($isUnique!=null) session()->flash('slug', __('alert.Slug must be unique.'));
-        $this->slug = $this->slug==""? Str::slug($this->title,'-') : Str::slug($this->slug,'-');
+        $this->seoTitleCount = strlen($this->seo_title);
+        $this->seoDescriptionCount = strlen($this->seo_description);
         $this->posts = Posts::where('type','=','post')->get();
         $this->categories = Categories::where('type','=','post')->get();
+        $this->slug = $this->slug==""? Str::slug($this->title,'-') : Str::slug($this->slug,'-');
+        if($this->isSlugUnique()==false) session()->flash('slug', __('alert.Slug must be unique'));
+
         return view('livewire.admin.post')->layout('layouts.admin.app');
+    }
+
+    public function isSlugUnique(){
+        $slugCheck = Slugs::select('id')->where('slug','=',$this->slug)->where('language','=',$this->language)->first();
+        if($slugCheck!=null && $this->post_id==''){
+            return false;
+        }
+        if($slugCheck!=null && Posts::find($this->post_id)->slug_id!=$slugCheck->id){
+            return false;
+        }
+        return true;
     }
 
     public function isOpen($bool){
@@ -42,12 +56,19 @@ class Post extends Component
     }
 
     public function save(){
-        if($this->title=="") return;
+        if($this->title==""){
+            session()->flash('title', __('alert.Title cannot be empty'));
+            return;}
+        if($this->isSlugUnique()==false){
+            session()->flash('slug', __('alert.Slug must be unique'));
+            return;
+        }
         if($this->post_id==""){
             $slugs = Slugs::create([
+                'owner' => 'post',
                 'slug' => $this->slug,
-                'seo_title' => $this->seo_title,
-                'seo_description' => $this->seo_description,
+                'title' => $this->seo_title,
+                'description' => $this->seo_description,
                 'index' => $this->index,
                 'follow' => $this->follow,
                 'language' => $this->language,
@@ -63,6 +84,15 @@ class Post extends Component
                 'comment_status' => $this->comment_status,
                 'language' => $this->language,
             ]);
+            foreach(CategoriesPosts::where('posts_id','=',$post->id)->get() as $category){
+                $category->delete();
+            }
+            foreach($this->postCategories as $categoryId){
+                CategoriesPosts::create([
+                    'categories_id' => $categoryId,
+                    'posts_id' => $post->id,
+                ]);
+            }
             session()->flash('slug', __('alert.Saved Successfully'));
         }
         else{
@@ -81,8 +111,8 @@ class Post extends Component
             ]);
             $post->seo->update([
                 'slug' => $this->slug,
-                'seo_title' => $this->seo_title,
-                'seo_description' => $this->seo_description,
+                'title' => $this->seo_title,
+                'description' => $this->seo_description,
                 'index' => $this->index,
                 'follow' => $this->follow,
                 'language' => $this->language,
@@ -96,7 +126,16 @@ class Post extends Component
                 'comment_status' => $this->comment_status,
                 'language' => $this->language,
             ]);
-            session()->flash('slug', __('alert.Updated Successfully'));
+            foreach(CategoriesPosts::where('posts_id','=',$post->id)->get() as $category){
+                $category->delete();
+            }
+            foreach($this->postCategories as $categoryId){
+                CategoriesPosts::create([
+                    'categories_id' => $categoryId,
+                    'posts_id' => $post->id,
+                ]);
+            }
+            session()->flash('info', __('alert.Updated Successfully'));
         }
         $this->resetInputFields();
         $this->isOpen = false;
@@ -114,6 +153,16 @@ class Post extends Component
         $this->seo_description = $post->seo->seo_description;
         $this->index = $post->seo->index;
         $this->follow = $post->seo->follow;
+        $this->postCategories = [];
+        foreach(CategoriesPosts::where('posts_id','=',$id)->get() as $postcategory){
+            array_push($this->postCategories,strval($postcategory->categories_id));
+        }
+    }
+
+    public function delete($id){
+        $post = Posts::find($id);
+        $post->seo->delete();
+        $post->delete();
     }
 
     private function resetInputFields(){
@@ -121,6 +170,7 @@ class Post extends Component
         $this->content = '';
         $this->slug = '';
         $this->categories = [];
+        $this->postCategories = [];
         $this->image = '';
         $this->seoTitle = '';
         $this->seoDescription = '';
@@ -129,6 +179,7 @@ class Post extends Component
     }
 
     public function addCategory(){
+        if($this->category=='') return;
         $slug = Str::slug($this->category,'-');
         $isUnique = Slugs::select('id')->where('slug','=',$slug)->where('language','=',$this->language)->first();
         if($isUnique!=null) {
@@ -153,4 +204,5 @@ class Post extends Component
     public function clearFeatured(){
         $this->image = '';
     }
+
 }

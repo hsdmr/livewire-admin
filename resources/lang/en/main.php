@@ -17,6 +17,7 @@ return [
     'Status' => 'Status',
     'Order' => 'Order',
     'Parent' => 'Parent',
+    'Green Range Is Ideal' => 'Green Range Is Ideal',
 
     'Add' => 'Add',
     'Remove' => 'Remove',
@@ -27,10 +28,13 @@ return [
     'Edit' => 'Edit',
     'Update' => 'Update',
     'Submit' => 'Submit',
+    'Save' => 'Save',
 
     'Dashboard' => 'Dashboard',
     'Post' => 'Post',
     'Posts' => 'Posts',
+    'Language' => 'Language',
+    'Languages' => 'Languages',
     'Category' => 'Category',
     'Categories' => 'Categories',
     'User' => 'User',

@@ -12,10 +12,10 @@ class Slugs extends Model
     protected $fillable = [
         'owner',
         'slug',
-        'seo_title',
-        'seo_description',
-        'seo_index',
-        'seo_follow',
+        'title',
+        'description',
+        'index',
+        'follow',
         'language'
     ];
 }

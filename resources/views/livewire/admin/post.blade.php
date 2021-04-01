@@ -18,15 +18,14 @@
                                 <input type="hidden" wire:model.lazy="comment_status" value="publish">
                                 <div class="form-group">
                                     <label for="title">{{__('main.Title')}}</label>
-                                    <input wire:model.lazy="title" id="title" type="text" class="form-control form-control-sm mb-2 @if($title!="") is-valid @else is-invalid @endif" placeholder="{{__('main.Title')}}">
+                                    @if (session()->has('title')) <small class="text-danger float-end">{{ session('title') }}</small> @endif
+                                    <input wire:model.lazy="title" id="title" type="text" class="form-control form-control-sm mb-2 @if(session()->has('title')) is-invalid @endif" placeholder="{{__('main.Title')}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="slug">{{__('main.Slug')}}</label>
+                                    @if (session()->has('slug')) <small class="text-danger float-end">{{ session('slug') }}</small> @endif
                                     <input wire:model.lazy="slug" id="slug" type="text" class="form-control form-control-sm mb-2 @if(session()->has('slug')) is-invalid @endif" placeholder="{{__('main.Slug')}}">
                                 </div>
-                                @if (session()->has('slug'))
-                                <p class="text-danger">{{ session('slug') }}</p>
-                                @endif
                                 <textarea wire:model.lazy="content" type="text" class="form-control form-control-sm mb-2" placeholder="{{__('main.Content')}}" rows="3" ></textarea>
                             </div>
                         </div>
@@ -63,7 +62,7 @@
                             </div>
                             <div class="card-body" style="max-height: 150px; overflow: auto;">
                                 @foreach ($categories as $item)
-                                    <label style="font-weight:400; width:100%"><input type="checkbox" name="" id="" class="me-2" value="{{$item->id}}">{{$item->title}}</label>
+                                    <label style="font-weight:400; width:100%"><input type="checkbox" wire:model="postCategories" class="me-2" value="{{$item->id}}">{{$item->title}}</label>
                                 @endforeach
                             </div>
                             <div class="card-footer">
@@ -78,7 +77,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success btn-sm float-end">{{__('main.Add New')}}</button>
+                <button type="submit" class="btn btn-success btn-sm float-end">{{__('main.Save')}}</button>
             </div>
           </form>
         </div>

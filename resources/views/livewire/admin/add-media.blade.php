@@ -26,7 +26,7 @@
                     @error('medias.*') <div class="error">{{ $message }}</div> @enderror
                     <div style="position:absolute; bottom:0; width:100%; text-align:right">
                         <hr class="m-0">
-                        <button class="btn btn-success m-2 btn-sm" type="submit">{{__('main.Save')}}</button>
+                        <button class="btn btn-success m-2 btn-sm" type="submit">{{__('main.Upload')}}</button>
                     </div>
                 </form>
               </div>
@@ -39,7 +39,7 @@
                       </div>
                       <div class="col-md-3 p-2" style="background-color: #f3f3f3">
                         @if ($singleMedia!=null)
-                        <img src="{{config('app.url').'/storage/'.$singleMedia->image}}" alt="" id="preview" style="max-height: 150px; object-fit:contain">
+                        <img src="{{config('app.url').'/storage/'.$singleMedia->image}}" alt="" id="preview" style="width:100%; max-height: 150px; object-fit:contain">
                         <p><a href="javascript:void(0);" class="text-danger" wire:click="delete({{$singleMedia->id}})">{{__('main.Delete')}}</a></p>
                         <div class="form-group mt-3">
                             <label for="title">{{__('main.Title')}}</label>
@@ -58,7 +58,7 @@
                   </div>
                   <div style="position:absolute; bottom:0; width:100%; text-align:right">
                       <hr class="m-0">
-                      <button class="btn btn-success btn-sm m-2" wire:click="choosePreview">{{__('main.Choose')}}</button>
+                      <button type="button" class="btn btn-success btn-sm m-2" wire:click="choosePreview">{{__('main.Choose')}}</button>
                   </div>
               </div>
             </div>

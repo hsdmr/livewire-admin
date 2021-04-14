@@ -15,7 +15,7 @@
                     <img class="media-preview" src="{{ $item->temporaryUrl() }}">
                     @endforeach
                     @else
-                    <div class="w-100 text-center" style="margin-top: 150px"><div class="btn btn-lg btn-success ">Upload</div></div>
+                    <div class="w-100 text-center" style="margin-top: 150px"><div class="btn btn-lg btn-success ">{{__('main.Upload')}}</div></div>
                     @endif
                 </label>
                 <input id="file" style="display: none;" type="file" wire:model="medias" multiple>

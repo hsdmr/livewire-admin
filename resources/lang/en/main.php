@@ -20,6 +20,7 @@ return [
     'Green Range Is Ideal' => 'Green Range Is Ideal',
 
     'Add' => 'Add',
+    'Upload' => 'Upload',
     'Remove' => 'Remove',
     'Choose' => 'Choose',
     'Select' => 'Select',

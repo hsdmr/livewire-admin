@@ -17,12 +17,12 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('slug_id')->default(0);
             $table->unsignedBigInteger('parent')->default(0);
-            $table->string('image')->default('');
-            $table->string('title')->default('');
-            $table->longText('content')->default('');
+            $table->string('image')->nullable();
+            $table->string('title')->nullable();
+            $table->longText('content')->nullable();
             $table->string('type')->default('post');
             $table->integer('count')->default(0);
-            $table->string('language')->default('');
+            $table->string('language')->nullable();
             $table->timestamps();
         });
     }

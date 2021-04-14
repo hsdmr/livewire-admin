@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\Posts;
+use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -19,7 +19,7 @@ class AddMedia extends Component
 
     public function render()
     {
-        $this->medias = Posts::orderBy('created_at','desc')->where('type','=','media')->get();
+        $this->medias = Post::orderBy('created_at','desc')->where('type','=','media')->get();
         return view('livewire.admin.add-media');
     }
 
@@ -36,7 +36,7 @@ class AddMedia extends Component
 
     public function save(){
         $url = $this->media->store('media','public');
-        Posts::create([
+        Post::create([
             'user_id' => Auth::id(),
             'title' => $this->media->getClientOriginalName(),
             'image' => $url,
@@ -57,11 +57,11 @@ class AddMedia extends Component
     }
 
     public function choose($id){
-        $this->singleMedia = Posts::find($id);
+        $this->singleMedia = Post::find($id);
     }
 
     public function delete($id){
-        Posts::find($id)->delete();
+        Post::find($id)->delete();
         $this->singleMedia = null;
     }
 

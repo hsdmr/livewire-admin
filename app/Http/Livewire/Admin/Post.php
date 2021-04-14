@@ -2,10 +2,9 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\Categories;
-use App\Models\CategoriesPosts;
-use App\Models\Posts;
-use App\Models\Slugs;
+use App\Models\Category;
+use App\Models\Post as ModelsPost;
+use App\Models\Slug;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -27,8 +26,8 @@ class Post extends Component
     {
         $this->seoTitleCount = strlen($this->seo_title);
         $this->seoDescriptionCount = strlen($this->seo_description);
-        $this->posts = Posts::where('type','=','post')->get();
-        $this->categories = Categories::where('type','=','post')->get();
+        $this->posts = ModelsPost::where('type','=','post')->get();
+        $this->categories = Category::where('type','=','post')->get();
         $this->slug = $this->slug==""? Str::slug($this->title,'-') : Str::slug($this->slug,'-');
         if($this->isSlugUnique()==false) session()->flash('slug', __('alert.Slug must be unique'));
 
@@ -36,11 +35,11 @@ class Post extends Component
     }
 
     public function isSlugUnique(){
-        $slugCheck = Slugs::select('id')->where('slug','=',$this->slug)->where('language','=',$this->language)->first();
+        $slugCheck = Slug::select('id')->where('slug','=',$this->slug)->where('language','=',$this->language)->first();
         if($slugCheck!=null && $this->post_id==''){
             return false;
         }
-        if($slugCheck!=null && Posts::find($this->post_id)->slug_id!=$slugCheck->id){
+        if($slugCheck!=null && ModelsPost::find($this->post_id)->slug_id!=$slugCheck->id){
             return false;
         }
         return true;
@@ -64,7 +63,7 @@ class Post extends Component
             return;
         }
         if($this->post_id==""){
-            $slugs = Slugs::create([
+            $slugs = Slug::create([
                 'owner' => 'post',
                 'slug' => $this->slug,
                 'title' => $this->seo_title,
@@ -73,7 +72,7 @@ class Post extends Component
                 'follow' => $this->follow,
                 'language' => $this->language,
             ]);
-            $post = Posts::create([
+            $post = ModelsPost::create([
                 'slug_id' => $slugs->id,
                 'user_id' => Auth::id(),
                 'image' => $this->image,
@@ -84,21 +83,15 @@ class Post extends Component
                 'comment_status' => $this->comment_status,
                 'language' => $this->language,
             ]);
-            foreach(CategoriesPosts::where('posts_id','=',$post->id)->get() as $category){
-                $category->delete();
-            }
+            $post->categories()->detach();
             foreach($this->postCategories as $categoryId){
-                CategoriesPosts::create([
-                    'categories_id' => $categoryId,
-                    'posts_id' => $post->id,
-                ]);
+                $post->categories()->attach($categoryId);
             }
             session()->flash('slug', __('alert.Saved Successfully'));
         }
         else{
-            $post = Posts::find($this->post_id);
-            Posts::create([
-                'post_id' => $this->post_id,
+            $post = ModelsPost::find($this->post_id);
+            ModelsPost::create([
                 'slug_id' => $post->slug_id,
                 'user_id' => $post->user_id,
                 'image' => $post->image,
@@ -126,14 +119,9 @@ class Post extends Component
                 'comment_status' => $this->comment_status,
                 'language' => $this->language,
             ]);
-            foreach(CategoriesPosts::where('posts_id','=',$post->id)->get() as $category){
-                $category->delete();
-            }
+            $post->categories()->detach();
             foreach($this->postCategories as $categoryId){
-                CategoriesPosts::create([
-                    'categories_id' => $categoryId,
-                    'posts_id' => $post->id,
-                ]);
+                $post->categories()->attach($categoryId);
             }
             session()->flash('info', __('alert.Updated Successfully'));
         }
@@ -143,7 +131,7 @@ class Post extends Component
 
     public function edit($id){
         $this->isOpen = true;
-        $post = Posts::find($id);
+        $post = ModelsPost::find($id);
         $this->post_id = $id;
         $this->title = $post->title;
         $this->content = $post->content;
@@ -154,13 +142,14 @@ class Post extends Component
         $this->index = $post->seo->index;
         $this->follow = $post->seo->follow;
         $this->postCategories = [];
-        foreach(CategoriesPosts::where('posts_id','=',$id)->get() as $postcategory){
-            array_push($this->postCategories,strval($postcategory->categories_id));
+        foreach($post->categories as $pc){
+            array_push($this->postCategories,$pc->id);
         }
     }
 
     public function delete($id){
-        $post = Posts::find($id);
+        $post = ModelsPost::find($id);
+        $post->categories()->detach();
         $post->seo->delete();
         $post->delete();
     }
@@ -181,16 +170,16 @@ class Post extends Component
     public function addCategory(){
         if($this->category=='') return;
         $slug = Str::slug($this->category,'-');
-        $isUnique = Slugs::select('id')->where('slug','=',$slug)->where('language','=',$this->language)->first();
+        $isUnique = Slug::select('id')->where('slug','=',$slug)->where('language','=',$this->language)->first();
         if($isUnique!=null) {
             $slug = $slug.uniqid(3);
         };
-        $slugRow = Slugs::create([
+        $slugRow = Slug::create([
             'slug' => $slug,
             'owner' => 'category',
             'language' => $this->language,
         ]);
-        Categories::create([
+        Category::create([
             'slug_id' => $slugRow->id,
             'title' => $this->category,
         ]);

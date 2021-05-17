@@ -17,11 +17,11 @@
             </div>
         </div>
         <div class="custom-control custom-checkbox">
-            <input wire:model.lazy="index" class="custom-control-input" type="checkbox" id="index" name="index">
+            <input wire:model.lazy="index" class="custom-control-input" type="checkbox" id="index" name="index" checked>
             <label for="index" class="custom-control-label">{{__('main.Index')}}</label>
         </div>
         <div class="custom-control custom-checkbox">
-            <input wire:model.lazy="follow" class="custom-control-input" type="checkbox" id="follow" name="follow">
+            <input wire:model.lazy="follow" class="custom-control-input" type="checkbox" id="follow" name="follow" checked>
             <label for="follow" class="custom-control-label">{{__('main.Follow')}}</label>
         </div>
     </div>

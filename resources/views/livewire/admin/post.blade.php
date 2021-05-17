@@ -26,7 +26,7 @@
                                     @if (session()->has('slug')) <small class="text-danger float-end">{{ session('slug') }}</small> @endif
                                     <input wire:model.lazy="slug" id="slug" type="text" class="form-control form-control-sm mb-2 @if(session()->has('slug')) is-invalid @endif" placeholder="{{__('main.Slug')}}">
                                 </div>
-                                <textarea wire:model.lazy="content" type="text" class="form-control form-control-sm mb-2" placeholder="{{__('main.Content')}}" rows="3" ></textarea>
+                                <textarea wire:model.lazy="content" type="text" class="form-control form-control-sm mb-2 " placeholder="{{__('main.Content')}}" rows="3" ></textarea>
                             </div>
                         </div>
                         @include('layouts.admin.seo')
@@ -104,7 +104,7 @@
           @foreach ($posts as $item)
           <tr>
             <td>{{$item->title}}</td>
-            <td>{{$item->title}}</td>
+            <td>{{$item->created_at}}</td>
             <td style="width: 75px">
                 <button wire:click="edit({{$item->id}})" type="button" class="btn btn-sm"><i class="fas fa-edit text-primary"></i></button>
                 <button wire:click="delete({{$item->id}})" type="button" class="btn btn-sm"><i class="fas fa-times text-danger"></i></button>

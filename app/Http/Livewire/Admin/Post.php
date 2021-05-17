@@ -12,11 +12,11 @@ use Illuminate\Support\Str;
 class Post extends Component
 {
     public $isOpen = false;
-    public $slug_id,$user_id,$post_id,$parent,$image,$title,$content,$category,$categories;
+    public $slug_id, $user_id, $post_id, $parent, $image, $title, $content, $category, $categories;
     public $language = 'en';
     public $post_status = "publish";
     public $comment_status = "open";
-    public $slug,$seo_title,$seo_description,$index,$follow,$seoTitleCount = 0,$seoDescriptionCount = 0;
+    public $slug, $seo_title, $seo_description, $index, $follow, $seoTitleCount = 0, $seoDescriptionCount = 0;
     public $postCategories = [];
     public $posts;
 
@@ -163,8 +163,8 @@ class Post extends Component
         $this->image = '';
         $this->seoTitle = '';
         $this->seoDescription = '';
-        $this->index = '';
-        $this->follow = '';
+        $this->index = true;
+        $this->follow = true;
     }
 
     public function addCategory(){

@@ -7,3 +7,4 @@ function rangeCount(a,b,d1,d2,d3){
     if(x>d2 && x<d3) document.getElementById(b).className="btn-success input-group-text";
     if(x>d3) document.getElementById(b).className="btn-danger input-group-text";
 }
+

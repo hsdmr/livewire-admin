@@ -28,6 +28,17 @@
 </div>
 
 <script>
-rangeCount("seo_title","seotit",1,40,60);
-rangeCount("seo_description","seodes",1,120,157);
+    rangeCount("seo_title","seotit",1,40,60);
+    rangeCount("seo_description","seodes",1,120,157);
+    $(function () {
+        $('#content-summernote').summernote({
+            tabsize: 2,
+            height: 200,
+            callbacks: {
+                onChange: function(contents, $editable){
+                    @this.set('content', contents);
+                }
+            }
+        });
+    });
 </script>

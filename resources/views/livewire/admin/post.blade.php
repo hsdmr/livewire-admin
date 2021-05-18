@@ -26,7 +26,9 @@
                                     @if (session()->has('slug')) <small class="text-danger float-end">{{ session('slug') }}</small> @endif
                                     <input wire:model.lazy="slug" id="slug" type="text" class="form-control form-control-sm mb-2 @if(session()->has('slug')) is-invalid @endif" placeholder="{{__('main.Slug')}}">
                                 </div>
-                                <textarea wire:model.lazy="content" type="text" class="form-control form-control-sm mb-2 " placeholder="{{__('main.Content')}}" rows="3" ></textarea>
+                                <div wire:ignore>
+                                    <textarea wire:model.lazy="content" id="content-summernote" rows="5" type="text" class="form-control form-control-sm mb-2" placeholder="{{__('main.Content')}}"></textarea>
+                                </div>
                             </div>
                         </div>
                         @include('layouts.admin.seo')

@@ -45,7 +45,10 @@ If git is not installed on your computer, install the appropriate one for your o
 If folder permission errors occur while deploying the project to the server, you can try the following codes.
 
   ```
-  chmod -R o+w storage
-  chmod 755 -R livewire-admin
+  php artisan vendor:publish --tag=livewire:config
+  php artisan livewire:discover
+  chmod -R gu+w storage
+  chmod -R guo+w storage
+  php artisan cache:clear
   ```
 

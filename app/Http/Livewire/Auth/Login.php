@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Login extends Component
 {
-    public $email,$password,$remember_me;
+    public $email = 'admin@gmail.com', $password = '12345678' ,$remember_me;
 
     protected $rules = [
         'email' => 'required|email',
@@ -22,7 +22,7 @@ class Login extends Component
         ];
         if(Auth::attempt($credentials)){
             if(Auth::user()->role=='admin'){
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.post');
             }
         }
         $this->addError('failed', __('auth.Email or password is incorrect'));

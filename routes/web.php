@@ -6,7 +6,9 @@ use App\Http\Livewire\Admin\Post;
 use App\Http\Livewire\Auth\ForgetPassword;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
 Route::get('/forget-password', ForgetPassword::class)->name('forget-password');
+Route::post('/logout', function(Request $request){
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect()->route('login');
+})->name('logout');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');

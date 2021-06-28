@@ -17,14 +17,14 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('slug_id')->default(0);
             $table->unsignedBigInteger('user_id')->default(0);
-            $table->unsignedBigInteger('parent')->default(0); //parent post id si yazılacak
-            $table->string('image')->nullable(); //post veya sayfa ise öne çıkan görsel url'si , media ise kayıt url'si
-            $table->string('title')->nullable(); //media için orjinal adı
-            $table->longText('content')->nullable();  //media için alt etiketi
+            $table->unsignedBigInteger('parent')->default(0); //paren post_id
+            $table->string('image')->nullable(); //use featured image url for post or page, store url for media
+            $table->string('title')->nullable(); //use as an original name for media
+            $table->longText('content')->nullable();  //use as an alt tag for media
             $table->string('post_status')->default('publish'); //publish, draft, revision
             $table->string('type')->default('post');
             $table->integer('order')->default(0);
-            $table->string('comment_status')->default('open'); //open, status
+            $table->string('comment_status')->default('open'); //open, close
             $table->integer('comment_count')->default(0);
             $table->string('language')->nullable();
             $table->softDeletes();

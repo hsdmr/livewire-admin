@@ -22,7 +22,7 @@ class Login extends Component
         ];
         if(Auth::attempt($credentials)){
             if(Auth::user()->role=='admin'){
-                return redirect()->route('admin.post');
+                return redirect()->route('admin.dashboard');
             }
         }
         $this->addError('failed', __('auth.Email or password is incorrect'));

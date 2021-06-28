@@ -4,12 +4,12 @@
             @error('failed') <div class="alert alert-danger">{{ $message }}</div> @enderror
           <div class="mb-3">
             <label for="email" class="form-label">{{__('auth.Email')}}</label>
-            <input wire:model.lazy="email" type="text" class="form-control" id="email" placeholder="email@example.com">
+            <input wire:model.lazy="email" type="text" class="form-control" id="email" placeholder="email@example.com" value="{{ $email }}">
             @error('email') <span class="text-danger">{{ $message }}</span> @enderror
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">{{__('auth.Password')}}</label>
-            <input wire:model.lazy="password" type="password" class="form-control" id="password" placeholder="Password">
+            <input wire:model.lazy="password" type="password" class="form-control" id="password" placeholder="Password" value="{{ $password }}">
             @error('password') <span class="text-danger">{{ $message }}</span> @enderror
           </div>
           <div class="mb-3">

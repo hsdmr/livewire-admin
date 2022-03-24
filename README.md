@@ -34,6 +34,8 @@ If git is not installed on your computer, install the appropriate one for your o
   php artisan storage:link
   php artisan migrate:fresh
   php artisan db:seed
+  php artisan livewire:discover
+  php artisan livewire:publish
   php artisan optimize
   php artisan serve
   ```
